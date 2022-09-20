@@ -3,11 +3,14 @@ def on_button_pressed_a():
     index += 10
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
-strip: neopixel.Strip = None
 index = 20
-range2 = strip.range(0, 4)
-strip = neopixel.create(DigitalPin.P0, 24, NeoPixelMode.RGB)
+rainbow = neopixel.create(DigitalPin.P0, 13, NeoPixelMode.RGB)
+rainbow.set_brightness(20)
+rainbow.show_rainbow(1, 360)
 
 def on_forever():
-    pass
+    strip: neopixel.Strip = None
+    rainbow.clear()
+    strip.show_bar_graph(100, 255)
+    rainbow.show()
 basic.forever(on_forever)

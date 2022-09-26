@@ -44,25 +44,24 @@ basic.showLeds(`
     . . . # .
     `)
 basic.forever(function () {
-	
-})
-loops.everyInterval(100, function () {
-    basic.showNumber(numLeds, 0)
-if (direction) {
-        rainbow.setPixelColor(numLeds - 1, colours[numLeds - 1])
-        rainbow.show()
-        if (numLeds == 13) {
-            direction = !(direction)
+    while (true) {
+        if (direction) {
+            rainbow.setPixelColor(numLeds - 1, colours[numLeds - 1])
+            rainbow.show()
+            if (numLeds == 13) {
+                direction = !(direction)
+            } else {
+                numLeds += 1
+            }
         } else {
-            numLeds += 1
+            rainbow.setPixelColor(numLeds - 1, neopixel.colors(NeoPixelColors.Black))
+            rainbow.show()
+            if (numLeds == 1) {
+                direction = !(direction)
+            } else {
+                numLeds += -1
+            }
         }
-    } else {
-        rainbow.setPixelColor(numLeds - 1, neopixel.colors(NeoPixelColors.Black))
-        rainbow.show()
-        if (numLeds == 1) {
-            direction = !(direction)
-        } else {
-            numLeds += -1
-        }
+        basic.pause(25)
     }
 })

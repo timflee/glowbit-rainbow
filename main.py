@@ -10,16 +10,20 @@ def on_button_pressed_ab():
     rainbow.show()
 input.on_button_pressed(Button.AB, on_button_pressed_ab)
 
+def on_button_pressed_b():
+    global numLeds
+    numLeds += -1
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
 def on_logo_pressed():
     pass
 input.on_logo_event(TouchButtonEvent.PRESSED, on_logo_pressed)
 
-index = 0
 rainbow: neopixel.Strip = None
-test = 0
-numLeds = 0 
-direction = True
 numLeds = 0
+test = 0
+direction = True
+numLeds = 1
 colours = [neopixel.rgb(255, 0, 0),
     neopixel.rgb(255, 128, 0),
     neopixel.rgb(255, 255, 0),
@@ -45,24 +49,23 @@ basic.show_leds("""
         . . . # .
 """)
 
-def on_every_interval():
-    global index, direction
-    if index == 1:
-        index = 0
-        basic.show_number(numLeds, 0)
-        if numLeds == 0:
-            rainbow.clear()
-            if direction:
-                rainbow.set_pixel_color(numLeds - 1, colours[numLeds - 1])
-            else:
-                if True:
-                    direction = not (direction)
-        else:
-            pass
-    else:
-        index += 1
-loops.every_interval(50, on_every_interval)
-
 def on_forever():
-    pass
+    global direction, numLeds
+    while True:
+        basic.show_number(numLeds, 0)
+        if direction:
+            rainbow.set_pixel_color(numLeds - 1, colours[numLeds - 1])
+            rainbow.show()
+            if numLeds == 13:
+                direction = not (direction)
+            else:
+                numLeds += 1
+        else:
+            rainbow.set_pixel_color(numLeds - 1, neopixel.colors(NeoPixelColors.BLACK))
+            rainbow.show()
+            if numLeds == 1:
+                direction = not (direction)
+            else:
+                numLeds += -1
+        basic.pause(25)
 basic.forever(on_forever)
